@@ -1,0 +1,8 @@
+version: '3'
+services:
+  eth1:
+    image: chainsafe/chainbridge --
+    command: 
+    container_name: eth1
+    volumes:
+      - chainbridge:/bridgedata
