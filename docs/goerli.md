@@ -2,51 +2,53 @@
 
 ## Deployment
 
-Get chainbridge-deploy cli tool, these steps do not need to be repeated for Goerli:
+Relayers list must be the set of accounts previously set up for the relayers
 ```bash
-git clone https://github.com/chainsafe/chainbridge-deploy
-cd chainbridge-deploy/cb-sol-cli
-make install
+./chainbridge-core-example evm-cli --url 'http://localhost:8545' --private-key ${ADMIN_KEY} deploy --all --relayer-threshold 2 --domain 1 --relayers '0x2fb940fa2de638c694672d34b2f01f03fd9401c7,0xe6129866a913045c2fb99f6fa5150229690a5816,0xf2736b5fa1eb42d08bf98f350c8f15303ea1619c' --erc20-name ENGI --erc20-symbol ENGI --fee 0 
 ```
 
-Back in the root of this repo:
-``bash
-cb-sol-cli --url http://rpc.goerli.mudit.blog --networkId 5 --privateKey $(node scripts/test-key.js ) deploy --all --chainId 5 --config
-```
-
-Contracts are deployed here:
+Deployed contracts:
 ```console
-================================================================
-Url:        http://rpc.goerli.mudit.blog
-Deployer:   0x449f9748f5a19154e6fd012B3AE5Ec5Ad1a042f7
-Gas Limit:   8000000
-Gas Price:   20000000
-Deploy Cost: 0.00029567156
+	Deployed contracts
+=========================================================
+Bridge: 0x90e630d8272074A07c453d4CB78205d2dE0521de
+---------------------------------------------------------
+ERC20 Token: 0xE5Ea4a579DA97CaD189E8aE9c560F4FB249E389D
+---------------------------------------------------------
+ERC20 Handler: 0xE6227a62c90E0b1B37163C0CB3972Cd1Cb7D3806
+---------------------------------------------------------
+ERC721 Token: 0x81abAb83D39Fb053e110cDFC668b72EAbDd99C99
+---------------------------------------------------------
+ERC721 Handler: 0xAF078A94A5B89b6407e413700332A86C3B6155c3
+---------------------------------------------------------
+Generic Handler: 0x420C4654e6317432c412cE1b0c401495b8e4820f
+=========================================================
+```
 
-Options
-=======
-Chain Id:    5
-Threshold:   2
-Relayers:    0xff93B45308FD417dF303D6515aB04D9e89a750Ca,0x8e0a907331554AF72563Bd8D43051C2E64Be5d35,0x24962717f8fA5BA3b931bACaF9ac03924EB475a0,0x148FfB2074A9e59eD58142822b3eB3fcBffb0cd7,0x4CEEf6139f00F9F4535Ad19640Ff7A0137708485
-Bridge Fee:  0
-Expiry:      100
+Register a resource ID (can be arbirtary, except the lower byte identifies the 'home' chain):
+```bash
+./chainbridge-core-example --url 'http://localhost:8545' --private-key ${ADMIN_KEY} evm-cli bridge register-resource --bridge 0x90e630d8272074A07c453d4CB78205d2dE0521de --handler 0xE6227a62c90E0b1B37163C0CB3972Cd1Cb7D3806 --target 0xE5Ea4a579DA97CaD189E8aE9c560F4FB249E389D --resource 0x454e474901
+```
 
-Contract Addresses
-================================================================
-Bridge:             0xC63A1A2c5C5C3913d84707BFD1Ee83B2a6d9bF70
-----------------------------------------------------------------
-Erc20 Handler:      0x0cd4370317aD014170708F5c7378f09be54F93A2
-----------------------------------------------------------------
-Erc721 Handler:     0x12048bC6158DC104F1B9827364b0c19ab171eb0D
-----------------------------------------------------------------
-Generic Handler:    0x222f0900A8157d4c189F7B7dD1781D9A982Fc3F2
-----------------------------------------------------------------
-Erc20:              0x097A32b3560FA230BC9a5c64AaB4Ea28E5AfC3ef
-----------------------------------------------------------------
-Erc721:             0x60C6A313930C059FA0F103141ab9254E3496aAb0
-----------------------------------------------------------------
-Centrifuge Asset:   Not Deployed
-----------------------------------------------------------------
-WETC:               Not Deployed
-================================================================
+```conole
+Registering resource
+Handler address: 0xE6227a62c90E0b1B37163C0CB3972Cd1Cb7D3806
+Resource ID: 0x454e474901
+Target address: 0xE5Ea4a579DA97CaD189E8aE9c560F4FB249E389D
+Bridge address: 0x90e630d8272074A07c453d4CB78205d2dE0521de
+```
+
+Set ENGI as mintable/burnable:
+```bash
+./chainbridge-core-example evm-cli bridge set-burn --url 'http://localhost:8545' --private-key ${ADMIN_KEY} --handler 0xE6227a62c90E0b1B37163C0CB3972Cd1Cb7D3806 --bridge 0x90e630d8272074A07c453d4CB78205d2dE0521de --token-contract 0xE5Ea4a579DA97CaD189E8aE9c560F4FB249E389D
+```
+
+Allow ERC20 contract to mint:
+```bash
+./chainbridge-core-example evm-cli erc20 add-minter --url 'http://localhost:8545' --private-key ${ADMIN_KEY} --contract 0xE5Ea4a579DA97CaD189E8aE9c560F4FB249E389D --minter 0xE6227a62c90E0b1B37163C0CB3972Cd1Cb7D380
+```
+
+Mint some ENGI!:
+```bash
+./chainbridge-core-example evm-cli erc20 mint --url 'http://localhost:8545' --private-key 7db559763bd2d2b25f6eccbeccf66d7c4248e72948f3acb2cefc28862bea58a6 --amount 1000 --decimals 18 --contract 0xE5Ea4a579DA97CaD189E8aE9c560F4FB249E389D --recipient 0x449f9748f5a19154e6fd012B3AE5Ec5Ad1a042f7
 ```

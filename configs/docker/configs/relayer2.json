@@ -1,0 +1,32 @@
+{
+    "chains": [
+        {
+            "name": "eth",
+            "type": "ethereum",
+            "id": "1",
+            "endpoint": "ws://eth1:8546",
+            "from": "0xF2736b5Fa1Eb42D08bf98f350C8f15303eA1619C",
+            "opts": {
+                "bridge": "0x90e630d8272074A07c453d4CB78205d2dE0521de",
+                "erc20Handler": "0xE6227a62c90E0b1B37163C0CB3972Cd1Cb7D3806",
+                "erc721Handler": "0xAF078A94A5B89b6407e413700332A86C3B6155c3",
+                "genericHandler": "0x420C4654e6317432c412cE1b0c401495b8e4820f",
+                "gasLimit": "1000000",
+                "maxGasPrice": "20000000",
+                "startBlock": "7208056",
+                "blockConfirmations": "2"
+            }
+        },
+        {
+            "name": "sub",
+            "type": "substrate",
+            "id": "2",
+            "endpoint": "ws://sub-chain:9944",
+            "from": "5DUSiZ1VrR7yaSwAko9VeSqPPC3C8NHAYMM95AbHmYQYBiCW",
+            "opts": {
+                "useExtendedCall": "true",
+                "startBlock": "0"
+            }
+        }
+    ]
+}

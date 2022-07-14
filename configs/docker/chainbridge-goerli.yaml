@@ -1,8 +1,52 @@
 version: '3'
 services:
-  eth1:
-    image: chainsafe/chainbridge --
-    command: 
-    container_name: eth1
+  chainbridge_goerli1:
+    image: chainsafe/chainbridge
+    command:  --metrics --keystore /bridgedata/keys --blockstore /bridgedata/blocks --config /configs/config.json --verbosity trace
+    container_name: chainbridge_goerli1
+    environment:
+      KEYSTORE_PASSWORD: super_secret
+    ports:
+    - "8001:8001"
+    configs:
+      - source: conf1
+        target: /configs/config.json
     volumes:
-      - chainbridge:/bridgedata
+      - .:/bridgedata
+  chainbridge_goerli2:
+    image: chainsafe/chainbridge
+    command:  --metrics --keystore /bridgedata/keys --blockstore /bridgedata/blocks --config /configs/config.json --verbosity trace
+    container_name: chainbridge_goerli2
+    environment:
+      KEYSTORE_PASSWORD: super_secret
+    ports:
+    - "8002:8001"
+    configs:
+      - source: conf2
+        target: /configs/config.json
+    volumes:
+      - .:/bridgedata
+  chainbridge_goerli3:
+    image: chainsafe/chainbridge
+    command:  --metrics --keystore /bridgedata/keys --blockstore /bridgedata/blocks --config /configs/config.json --verbosity trace
+    container_name: chainbridge_goerli3
+    environment:
+      KEYSTORE_PASSWORD: super_secret
+    ports:
+    - "8003:8001"
+    configs:
+      - source: conf3
+        target: /configs/config.json
+    volumes:
+      - .:/bridgedata
+networks:
+  default:
+    external:
+      name: eth-goerli-test
+configs:
+  conf1:
+    file: configs/relayer1.json
+  conf2:
+    file: configs/relayer2.json
+  conf3:
+    file: configs/relayer3.json

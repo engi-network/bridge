@@ -2,27 +2,52 @@
 
 ## Requirements:
   - Docker
+  - golang
   - nodejs
   - npm
 
+## For Mac M1 compatibility
+Needed for the chainbridge cli tools, since they build to amd64
+```bash
+softwareupdate --install-rosetta
+```
+
+## Install chainbridge cli tool:
+```bash
+git clone https://github.com/ChainSafe/chainbridge-core-example.git
+cd chainbridge-core-example
+make build
+```
+
+Key setup for relayers, [see here](docs/account_setup.md)
+
+ETH contract deployment [here](docs/goerli.md)
+
+Substrate [resource registration](https://chainbridge.chainsafe.io/local/#register-relayers).
+Note on the Method name: it's not immediately clear, but this turns out to be <pallet_name>.<method_name>
+
 
 ### Spin up a local test network
+
+```bash
+docker network create eth-goerli-test
+```
 
 This will bring up an eth light node connected to the Goerli testnet and a parity chain with the bridge pallet.
 ```bash
 docker-compose -f ./configs/docker/goerli-chain.yaml up
 ```
 
-For details of the bridge contract deployment, [see here](docs/goerli.md).
-
 Bring up a chainbridge:
 ```bash
 docker-compose -f ./configs/docker/chainbridge-goerli.yaml up
 ```
 
+There will be a metrics endpoint at `http://localhost:8001/metrics`.
+
 Teardown:
 ```bash
-docker-compose -f configs/docker/simple-local-chain.yaml down -v
+docker-compose -f configs/docker/simple-local-chain.yaml down
 ```
 
 If needed, an eth console can be brought up in a separate shell window with:

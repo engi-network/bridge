@@ -2,7 +2,7 @@ version: '3'
 services:
   eth1:
     image: ethereum/client-go:stable
-    command: --syncmode light --datadir /ethdata --http --http.api eth,web3,debug,txpool,net,h,db,admin,debug --ws --ws.api eth,web3,debug,txpool,net,h,db,admin,debug  --ws.origins localhost --gcmode full
+    command: --vmodule 'rpc=5' --goerli --syncmode light --datadir /ethdata --http --http.addr '0.0.0.0' --http.api eth,web3,debug,txpool,net,h,db,admin,debug --ws --ws.api eth,web3,debug,txpool,net,h,db,admin,debug  --ws.addr '0.0.0.0' --gcmode full
     container_name: eth1
     volumes:
       - datadir:/ethdata
@@ -18,5 +18,9 @@ services:
     command: chainbridge-substrate-chain --dev --alice --ws-external --rpc-external
     ports:
     - "9944:9944"
+networks:
+  default:
+    external:
+      name: eth-goerli-test
 volumes:
   datadir:
