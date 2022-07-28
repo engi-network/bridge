@@ -12,11 +12,9 @@ Needed for the chainbridge cli tools, since they build to amd64
 softwareupdate --install-rosetta
 ```
 
-## Install chainbridge cli tool:
+## Build cli tool:
 ```bash
-git clone https://github.com/ChainSafe/chainbridge-core-example.git
-cd chainbridge-core-example
-make build
+go build
 ```
 
 Key setup for relayers, [see here](docs/account_setup.md)
