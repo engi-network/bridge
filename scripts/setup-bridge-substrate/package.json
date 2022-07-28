@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@polkadot/api": "8.14.1",
+    "bn.js": "^5.2.1"
+  }
+}
