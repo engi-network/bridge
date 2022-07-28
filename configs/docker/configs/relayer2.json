@@ -1,0 +1,28 @@
+{
+    "chains": [
+        {
+            "id": 1,
+            "from": "0x2FB940FA2De638c694672d34b2f01F03fd9401c7",
+            "name": "eth",
+            "type": "evm",
+            "endpoint": "ws://eth1:8546",
+            "bridge": "0xCEE4a38919e4BB66a7B4aBd834fd2D79563aA013",
+            "erc20Handler": "0x52eEEFfD54d6e2dD7DF1Ce354623Ec67E4E4DEC5",
+            "erc721Handler": "0x4618522A2a6A826aEB2287e032E474B569007f19",
+            "genericHandler": "0x315978a6b7228832b16AdaaE418Ac6fa0c2D6Ce0",
+            "gasLimit": 1000000,
+            "maxGasPrice": 20000000,
+            "startBlock": 7208056,
+            "blockConfirmations": 2
+        },
+        {
+            "id": 2,
+            "name": "sub",
+            "type": "substrate",
+            "endpoint": "ws://sub-chain:9944",
+            "from": "5DUSiZ1VrR7yaSwAko9VeSqPPC3C8NHAYMM95AbHmYQYBiCW",
+            "useExtendedCall": true,
+            "startBlock": 0
+        }
+    ]
+}
