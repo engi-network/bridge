@@ -36,9 +36,14 @@ This will bring up an eth light node connected to the Goerli testnet and a parit
 docker-compose -f ./configs/docker/goerli-chain.yaml up
 ```
 
+Build the bridge:
+```bash
+go build
+```
+
 Bring up a chainbridge:
 ```bash
-docker-compose -f ./configs/docker/chainbridge-goerli.yaml up
+KEYSTORE_PASSWORD=super_secret ./bridge --keystore ../bridge/configs/docker/keys --blockstore ./blockstore --config ./relayer1.json run
 ```
 
 There will be a metrics endpoint at `http://localhost:8001/metrics`.
