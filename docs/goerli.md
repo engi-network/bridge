@@ -25,6 +25,17 @@ Generic Handler: 0x315978a6b7228832b16AdaaE418Ac6fa0c2D6Ce0
 =========================================================
 ```
 
+Deploy the vendor as well:
+```bash
+cd contracts
+yarn; MNEMONIC_GOERLI='secret mnemonic ...' yarn hardhat --network goerli deploy
+```
+
+Vendor Contract:
+```console
+0x893eE238147a93DD957626c6eC3cEd97FB44e52b
+```
+
 Register a resource ID (can be arbirtary, except the lower byte identifies the 'home' chain):
 Note: The resource MUST be a 32 byte value, or substrate will not see it the same as ethereum
 ```bash
@@ -49,10 +60,12 @@ Allow ERC20 contract to mint:
 ./bridge evm-cli erc20 add-minter --url 'http://localhost:8545' --private-key ${ADMIN_KEY} --contract  0xb7D43b3c22389889A964f89F141b12D5fb1CA804 --minter 0x52eEEFfD54d6e2dD7DF1Ce354623Ec67E4E4DEC5
 ```
 
-Mint some ENGI!:
+Mint some ENGI into Vendor contract!:
 ```bash
-./bridge evm-cli erc20 mint --url 'http://localhost:8545' --private-key ${ADMIN_KEY} --amount 1000000 --decimals 18 --contract 0xb7D43b3c22389889A964f89F141b12D5fb1CA804 --recipient 0x449f9748f5a19154e6fd012B3AE5Ec5Ad1a042f7
+./bridge evm-cli erc20 mint --url 'http://localhost:8545' --private-key ${ADMIN_KEY} --amount 1000000 --decimals 18 --contract 0xb7D43b3c22389889A964f89F141b12D5fb1CA804 --recipient 0x893eE238147a93DD957626c6eC3cEd97FB44e52b
 ```
+
+These steps performed by ENGI Vendor contract, but for testing purposes, here they are:
 
 Authorize spending (recipient is actually the ERC20 handler contract):
 ```bash
