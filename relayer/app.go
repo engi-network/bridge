@@ -62,7 +62,7 @@ fmt.Println(configuration)
 	chains := []relayer.RelayedChain{}
 	for _, chainConfig := range configuration.ChainConfigs {
 		switch chainConfig["type"] {
-		case "evm":
+            case "evm":
 			{
 				chain, err := evm.SetupDefaultEVMChain(chainConfig, evmtransaction.NewTransaction, blockstore)
 				if err != nil {
@@ -71,28 +71,31 @@ fmt.Println(configuration)
 
 				chains = append(chains, chain)
 			}
-                case "substrate":
-                        {
-                               config, err := chain.NewSubstrateConfig(chainConfig)
-                               if err != nil {
-                                       panic(err)
-                               }
-                               keypair, err := keystore.KeypairFromAddress(config.GeneralChainConfig.From, keystore.SubChain, config.GeneralChainConfig.KeystorePath, config.GeneralChainConfig.Insecure)
-                               if err != nil {
-                                       panic(err)
-                               }
-                               krp := keypair.(*sr25519.Keypair).AsKeyringPair()
-                               client,err := subclient.CreateClient((*signature.KeyringPair)(krp), config.GeneralChainConfig.Endpoint)
-                               if err != nil {
-                                       panic(err)
-                               }
+            case "substrate":
+            {
+                   config, err := chain.NewSubstrateConfig(chainConfig)
+                   if err != nil {
+                           panic(err)
+                   }
+                   keypair, err := keystore.KeypairFromAddress(config.GeneralChainConfig.From, keystore.SubChain, config.GeneralChainConfig.KeystorePath, config.GeneralChainConfig.Insecure)
+                   if err != nil {
+                           panic(err)
+                   }
+                   krp := keypair.(*sr25519.Keypair).AsKeyringPair()
+                   client,err := subclient.CreateClient((*signature.KeyringPair)(krp), config.GeneralChainConfig.Endpoint)
+                   if err != nil {
+                           panic(err)
+                   }
 fmt.Println(client)
-                               subListener := sublistener.NewSubstrateListener(client)
-                               subListener.RegisterSubscription(message.FungibleTransfer, sublistener.FungibleTransferHandler)
-                               writer := subwriter.NewSubstrateWriter(*config.GeneralChainConfig.Id, client)
-                               writer.RegisterHandler(message.FungibleTransfer, handleFungibleTransfer)
-                               chains = append(chains, substrate.NewSubstrateChain(subListener, writer, blockstore, *config.GeneralChainConfig.Id, config))
-                        }
+                   subListener := sublistener.NewSubstrateListener(client)
+                   subListener.RegisterSubscription(message.FungibleTransfer, sublistener.FungibleTransferHandler)
+                   writer := subwriter.NewSubstrateWriter(*config.GeneralChainConfig.Id, client)
+                   writer.RegisterHandler(message.FungibleTransfer, handleFungibleTransfer)
+                   chains = append(chains, substrate.NewSubstrateChain(subListener, writer, blockstore, *config.GeneralChainConfig.Id, config))
+            }
+            default:
+                fmt.Println("Chaintype not recognized: ", chainConfig["type"]);
+                panic("Invalid chain type");
 		}
 	}
 
