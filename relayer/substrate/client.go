@@ -193,15 +193,18 @@ func (c *Client) GetBlockEvents(hash grpcTypes.Hash, target interface{}) error {
     meta := c.getMetadata()
     key, err := grpcTypes.CreateStorageKey(meta, "System", "Events", nil, nil)
     if err != nil {
+    fmt.Println("TJDEBUG create storage key was bad")
         return err
     }
     var records grpcTypes.EventRecordsRaw
     _, err = c.Api.RPC.State.GetStorage(key, &records, hash)
     if err != nil {
+    fmt.Println("TJDEBUG get storage key was bad")
         return err
     }
     err = records.DecodeEventRecords(meta, target)
     if err != nil {
+    fmt.Println("TJDEBUG event records was bad")
         return err
     }
     return nil

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math/big"
 	"time"
+    "fmt"
 
 	"github.com/status-im/keycard-go/hexutils"
 
@@ -68,6 +69,8 @@ func (l *SubstrateListener) ListenToEvents(startBlock *big.Int, domainID uint8, 
 					time.Sleep(BlockRetryInterval)
 					continue
 				}
+                fmt.Println("TJDEBUG fetching block: ", startBlock)
+                fmt.Println("TJDEBUG finalized block: ", finalizedHeader.Number)
 				hash, err := l.client.GetBlockHash(startBlock.Uint64())
 				if err != nil && err.Error() == ErrBlockNotReady.Error() {
 					time.Sleep(BlockRetryInterval)
@@ -81,6 +84,7 @@ func (l *SubstrateListener) ListenToEvents(startBlock *big.Int, domainID uint8, 
 				err = l.client.GetBlockEvents(hash, evts)
 				if err != nil {
 					log.Error().Err(err).Msg("Failed to process events in block")
+					time.Sleep(BlockRetryInterval)
 					continue
 				}
 				msg, err := l.handleEvents(domainID, evts)
