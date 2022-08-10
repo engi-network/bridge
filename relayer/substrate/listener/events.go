@@ -7,27 +7,6 @@ import (
 	"github.com/centrifuge/go-substrate-rpc-client/v4/types"
 )
 
-type EventErc721Minted struct {
-	Phase   types.Phase
-	Owner   types.AccountID
-	TokenId types.U256
-	Topics  []types.Hash
-}
-
-type EventErc721Transferred struct {
-	Phase   types.Phase
-	From    types.AccountID
-	To      types.AccountID
-	TokenId types.U256
-	Topics  []types.Hash
-}
-
-type EventErc721Burned struct {
-	Phase   types.Phase
-	TokenId types.AccountID
-	Topics  []types.Hash
-}
-
 type EventExampleRemark struct {
 	Phase  types.Phase
 	Hash   types.Hash
@@ -279,6 +258,19 @@ type EventProposalFailed struct {
 	Topics       []types.Hash
 }
 
+type EventJobCreated struct {
+	Phase        types.Phase
+    JobId        types.U64
+    AccountId    types.AccountID
+	Topics       []types.Hash
+}
+
+type EventJobIdGenerated struct {
+	Phase        types.Phase
+    JobId        types.U64
+	Topics       []types.Hash
+}
+
 type Events struct {
 	types.EventRecords
 	ChainBridge_FungibleTransfer        []EventFungibleTransfer               //nolint:stylecheck,golint
@@ -294,9 +286,8 @@ type Events struct {
 	ChainBridge_ProposalRejected        []EventProposalRejected               //nolint:stylecheck,golint
 	ChainBridge_ProposalSucceeded       []EventProposalSucceeded              //nolint:stylecheck,golint
 	ChainBridge_ProposalFailed          []EventProposalFailed                 //nolint:stylecheck,golint
-	Erc721_Minted                       []EventErc721Minted                   //nolint:stylecheck,golint
-	Erc721_Transferred                  []EventErc721Transferred              //nolint:stylecheck,golint
-	Erc721_Burned                       []EventErc721Burned                   //nolint:stylecheck,golint
+    Jobs_JobCreated                     []EventJobCreated                     //nolint:stylecheck,golint
+    Jobs_JobIdGenerated                 []EventJobIdGenerated                 //nolint:stylecheck,golint
 	Example_Remark                      []EventExampleRemark                  //nolint:stylecheck,golint
 	Nfts_DepositAsset                   []EventNFTDeposited                   //nolint:stylecheck,golint
 	Council_Proposed                    []types.EventCouncilProposed       //nolint:stylecheck,golint
