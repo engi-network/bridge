@@ -3,6 +3,7 @@ module github.com/engi-network/bridge
 go 1.15
 
 //replace github.com/ChainSafe/chainbridge-core => ../chainbridge-core
+replace github.com/centrifuge/go-substrate-rpc-client/v4 v4.0.3 => github.com/engi-network/go-substrate-rpc-client/v4 v4.0.3
 
 //
 // replace github.com/ChainSafe/chainbridge-celo-module => ../chainbridge-celo-module
