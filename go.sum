@@ -229,6 +229,10 @@ github.com/edsrzf/mmap-go v1.0.0/go.mod h1:YO35OhQPt3KJa3ryjFM5Bs14WD66h8eGKpfaB
 github.com/elastic/gosigar v0.8.1-0.20180330100440-37f05ff46ffa/go.mod h1:cdorVVzy1fhmEqmtgqkoE3bYtCfSCkVyjTyCIo22xvs=
 github.com/engi-network/go-substrate-rpc-client/v4 v4.0.3 h1:15Km4CJD6jkRn7cd4a8weZxqiltAMLLXRTPhrpCUuSQ=
 github.com/engi-network/go-substrate-rpc-client/v4 v4.0.3/go.mod h1:5g1oM4Zu3BOaLpsKQ+O8PAv2kNuq+kPcA1VzFbsSqxE=
+github.com/engi-network/sygma-core v0.0.0 h1:33EUxg5E2ECwmwCwMQ4a4iYjDLV0IZqsxyhh7GKXbY8=
+github.com/engi-network/sygma-core v0.0.0/go.mod h1:Nl4pM/lJ/Acf/mk4vDv9kXx5mvoupzz5Z8UpdTDUOjI=
+github.com/engi-network/sygma-core v0.0.1 h1:476PUmV5N8KEOJtxqCDlJ0GsPnRn2KVirapVsrpzCrA=
+github.com/engi-network/sygma-core v0.0.1/go.mod h1:Nl4pM/lJ/Acf/mk4vDv9kXx5mvoupzz5Z8UpdTDUOjI=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
