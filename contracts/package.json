@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.1.0",
-    "@openzeppelin/contracts": "^4.7.2",
+    "@openzeppelin/contracts": "^4.7.3",
     "@polkadot/api": "^9.0.1",
     "abi-to-sol": "^0.6.4",
     "hardhat-ethers": "^1.0.1"
