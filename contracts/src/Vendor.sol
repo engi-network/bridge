@@ -12,7 +12,7 @@ import "./bridge.sol";
 contract Vendor is Ownable {
 
   // Our Token Contract
-  uint8 public constant destinationChainID = 2;
+  uint8 public constant destinationChainID = 1;
   uint public constant substrateAddressLen = 32;
 
   BRIDGE _bridge;
