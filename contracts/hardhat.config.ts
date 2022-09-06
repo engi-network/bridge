@@ -16,7 +16,7 @@ const config: HardhatUserConfig = {
         url: 'http://127.0.0.1:9989',
     },
     goerli: {
-        url: 'http://localhost:8545',
+        url: 'https://goerli.infura.io/v3/506381d31443434ba331ada55b1eb07e',
         accounts: accounts('goerli'),
     }
   },

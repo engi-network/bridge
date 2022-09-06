@@ -12,26 +12,43 @@ import "./bridge.sol";
 contract Vendor is Ownable {
 
   // Our Token Contract
-  uint8 public constant destinationChainID = 2;
+  uint8 public constant destinationChainID = 1;
   uint public constant substrateAddressLen = 32;
 
   BRIDGE _bridge;
   IERC20 token;
-  address handler;
+  address _handler;
   bytes32 _resourceID;
 
   // token price for ETH
   uint256 public tokensPerEth = 1;
+  uint256 someVar = 1;
 
   // Event that log buy operation
   event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
   event CallData(bytes data);
 
-  constructor(address bridge, address tokenAddress, address handlerAddress, bytes32 resourceID) {
+  modifier onlyHandler() {
+      _checkHandler();
+      _;
+  }
+
+  function handlerAddress() public view virtual returns (address) {
+      return _handler;
+  }
+
+  function _checkHandler() internal view virtual {
+      require(handlerAddress() == _msgSender(), "Bridge: caller is not the bridge");
+  }
+
+  constructor(address bridge, address tokenAddress, bytes32 resourceID) {
     _bridge = BRIDGE(bridge);
     token = IERC20(tokenAddress);
-    handler = handlerAddress;
     _resourceID = resourceID;
+  }
+
+  function setHandler(address handler) public onlyOwner {
+    _handler = handler;
   }
 
   /**
@@ -39,6 +56,7 @@ contract Vendor is Ownable {
   */
   function deposit (bytes32 to) external payable {
     require(msg.value > 0, "Send ETH to buy some tokens");
+    require(address(handlerAddress()) != address(0), "Handler is not initialized");
 
     uint256 amountToBuy = msg.value * tokensPerEth;
 
@@ -47,7 +65,7 @@ contract Vendor is Ownable {
     require(vendorBalance >= amountToBuy, "Vendor contract has not enough tokens in its balance");
 
     // Transfer token to the msg.sender
-    (bool approved) = token.approve(handler, amountToBuy);
+    (bool approved) = token.approve(handlerAddress(), amountToBuy);
     require(approved, "Failed to approve token transfer");
 
     bytes memory data = abi.encodePacked(bytes32(msg.value), bytes32(substrateAddressLen), to);
@@ -60,6 +78,10 @@ contract Vendor is Ownable {
 
     // emit the event
     emit BuyTokens(msg.sender, msg.value, amountToBuy);
+  }
+
+  function redeem(uint256 amount, address payable to) external onlyHandler {
+      to.transfer(amount);
   }
 
   /**
