@@ -58,7 +58,7 @@ jobs:
     machine:
       image: ubuntu-2004:202201-01
     environment:
-      TF_WORKSPACE: "bridge-mainnet"
+      TF_WORKSPACE: "bridge-production"
     steps:
       - terraform-deploy
 
@@ -83,7 +83,7 @@ workflows:
             branches:
               ignore: /.*/
           name: "build-and-push-production"
-          repo: "bridge-mainnet"
+          repo: "bridge-production"
           create-repo: true
           tag: latest
           registry-id: AWS_ID
