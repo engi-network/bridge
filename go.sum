@@ -237,6 +237,9 @@ github.com/engi-network/sygma-core v0.0.2 h1:OcXMGgudsjpnAWzacRqW3hysBko4E5VTYMD
 github.com/engi-network/sygma-core v0.0.2/go.mod h1:Nl4pM/lJ/Acf/mk4vDv9kXx5mvoupzz5Z8UpdTDUOjI=
 github.com/engi-network/sygma-core v0.0.3 h1:GUWuIY4Z8ZBi8bt+OGN4nJTc3URMXjdI3wFKNNeH8hY=
 github.com/engi-network/sygma-core v0.0.3/go.mod h1:Nl4pM/lJ/Acf/mk4vDv9kXx5mvoupzz5Z8UpdTDUOjI=
+github.com/engi-network/sygma-core v0.0.4 h1:ic1X3z0BWEQ6hwhkdvAdbdcYYjNnKNV8yFuWRacOZdo=
+github.com/engi-network/sygma-core v0.0.5 h1:YMzYZZzfu5mNkQnWDeV0/JtH6wZL08gf1xoQLTogWa8=
+github.com/engi-network/sygma-core v0.0.5/go.mod h1:Nl4pM/lJ/Acf/mk4vDv9kXx5mvoupzz5Z8UpdTDUOjI=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
