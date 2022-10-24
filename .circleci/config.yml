@@ -69,7 +69,7 @@ workflows:
     jobs:
       - aws-ecr/build-and-push-image:
           name: "build-and-push-staging"
-          repo: "bridge-testnet"
+          repo: "bridge-staging"
           create-repo: true
           tag: latest
           registry-id: AWS_ID
