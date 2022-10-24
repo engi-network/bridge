@@ -2,7 +2,7 @@ module github.com/engi-network/bridge
 
 go 1.15
 
-replace github.com/ChainSafe/chainbridge-core => github.com/engi-network/sygma-core v0.0.5
+replace github.com/ChainSafe/chainbridge-core => github.com/engi-network/sygma-core v0.0.7
 replace github.com/centrifuge/go-substrate-rpc-client/v4 v4.0.3 => github.com/engi-network/go-substrate-rpc-client/v4 v4.0.3
 
 //
