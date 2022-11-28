@@ -10,7 +10,9 @@ const uc = require('@polkadot/util-crypto');
 function substrateToHex(address) { var ar = uc.decodeAddress(address); return '0x' + Array.from(ar, function (byte) { return ('0' + (byte & 0xFF).toString(16)).slice(-2); }).join(''); }
 
 (async () => {
-    const PURCHASE_CONTRACT = '0xf054Be6AC90377Fa13d80e4a7528425945d13F8E';
+    // testnet
+    // see https://github.com/engi-network/website/blob/master/src/utils/ethereum/constants.ts
+    const PURCHASE_CONTRACT = '0xF7150Be741157ef36EFF47D5464028b950a0df1C';
     const abi = require('./Vendor.json');
     const provider = new ethers.providers.JsonRpcProvider('https://goerli.infura.io/v3/506381d31443434ba331ada55b1eb07e');
     const nemo = 'monster various october car donkey plug float kind perfect nation fog extend';
