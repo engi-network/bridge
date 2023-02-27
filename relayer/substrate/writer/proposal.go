@@ -2,6 +2,7 @@ package writer
 
 import (
 	"github.com/centrifuge/go-substrate-rpc-client/v4/types"
+	"github.com/centrifuge/go-substrate-rpc-client/v4/types/codec"
 )
 
 type SubstrateProposal struct {
@@ -14,7 +15,7 @@ type SubstrateProposal struct {
 
 // encode takes only nonce and call and encodes them for storage queries
 func (p *SubstrateProposal) Encode() ([]byte, error) {
-	return types.Encode(struct {
+	return codec.Encode(struct {
 		types.U64
 		types.Call
 	}{p.DepositNonce, p.Call})

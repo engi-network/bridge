@@ -16,6 +16,7 @@ import (
 	gsrpc "github.com/centrifuge/go-substrate-rpc-client/v4"
 	"github.com/centrifuge/go-substrate-rpc-client/v4/signature"
 	grpcTypes "github.com/centrifuge/go-substrate-rpc-client/v4/types"
+	"github.com/centrifuge/go-substrate-rpc-client/v4/types/codec"
 	"github.com/centrifuge/go-substrate-rpc-client/v4/rpc/author"
 )
 
@@ -137,8 +138,14 @@ func (c *Client) watchSubmission(sub *author.ExtrinsicStatusSubscription) error 
     }
 }
 
-func (c *Client) GetVoterAccountID() grpcTypes.AccountID {
-    return grpcTypes.NewAccountID(c.Key.PublicKey)
+func (c *Client) GetVoterAccountID() (*grpcTypes.AccountID, error) {
+    var acctId, err = grpcTypes.NewAccountID(c.Key.PublicKey)
+
+    if err != nil {
+        return nil, err
+    }
+
+    return acctId, nil
 }
 
 func (c *Client) GetMetadata() (meta grpcTypes.Metadata) {
@@ -336,12 +343,19 @@ func (c *Client) LatestBlock() (uint64, error) {
 
 func (c *Client) MintErc721(tokenId *big.Int, metadata []byte, recipient *signature.KeyringPair) error {
 	fmt.Printf("Mint info: account %x amount: %x meta: %x\n", recipient.PublicKey, grpcTypes.NewU256(*tokenId), grpcTypes.Bytes(metadata))
-	return SubmitSudoTx(c, Erc721MintMethod, grpcTypes.NewAccountID(recipient.PublicKey), grpcTypes.NewU256(*tokenId), grpcTypes.Bytes(metadata))
+
+    var acctId, err = grpcTypes.NewAccountID(recipient.PublicKey)
+
+    if err != nil {
+        return err
+    }
+
+	return SubmitSudoTx(c, Erc721MintMethod, acctId, grpcTypes.NewU256(*tokenId), grpcTypes.Bytes(metadata))
 }
 
 func (c *Client) OwnerOf(tokenId *big.Int) (grpcTypes.AccountID, error) {
 	var owner grpcTypes.AccountID
-	tokenIdBz, err := grpcTypes.Encode(grpcTypes.NewU256(*tokenId))
+	tokenIdBz, err := codec.Encode(grpcTypes.NewU256(*tokenId))
 	if err != nil {
 		return grpcTypes.AccountID{}, err
 	}
@@ -358,7 +372,7 @@ func (c *Client) OwnerOf(tokenId *big.Int) (grpcTypes.AccountID, error) {
 
 func (c *Client) GetDepositNonce(chain msg.ChainId) (uint64, error) {
 	var count grpcTypes.U64
-	chainId, err := grpcTypes.Encode(grpcTypes.U8(chain))
+	chainId, err := codec.Encode(grpcTypes.U8(chain))
 	if err != nil {
 		return 0, err
 	}

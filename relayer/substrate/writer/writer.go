@@ -8,6 +8,7 @@ import (
 	"github.com/ChainSafe/chainbridge-core/relayer/message"
 	"github.com/ChainSafe/chainbridge-core/types"
 	substrateTypes "github.com/centrifuge/go-substrate-rpc-client/v4/types"
+	"github.com/centrifuge/go-substrate-rpc-client/v4/types/codec"
 	"github.com/rs/zerolog/log"
 )
 
@@ -44,14 +45,14 @@ var AcknowledgeProposal = BridgePalletName + ".acknowledge_proposal"
 
 type Voter interface {
 	SubmitTx(method string, args ...interface{}) error
-	GetVoterAccountID() substrateTypes.AccountID
+	GetVoterAccountID() (*substrateTypes.AccountID, error)
 	GetMetadata() (meta substrateTypes.Metadata)
 	ResolveResourceId(resourceId types.ResourceID) (string, error)
 	// TODO: Vote state should be higher abstraction
 	GetProposalStatus(sourceID, proposalBytes []byte) (bool, *VoteState, error)
 }
 
-type ProposalHandler func(msg *message.Message) []interface{}
+type ProposalHandler func(msg *message.Message) ([]interface{}, error)
 type ProposalHandlers map[message.TransferType]ProposalHandler
 
 type SubstrateWriter struct {
@@ -76,7 +77,13 @@ func (w *SubstrateWriter) VoteProposal(m *message.Message) error {
 	if !ok {
 		return fmt.Errorf("no corresponding substrate handler found for message type %s", m.Type)
 	}
-	prop, err := w.createProposal(m.Source, m.DepositNonce, m.ResourceId, handler(m)...)
+    var handled, err = handler(m)
+
+    if err != nil {
+        return err
+    }
+
+	prop, err := w.createProposal(m.Source, m.DepositNonce, m.ResourceId, handled...)
 	if err != nil {
 		return fmt.Errorf("failed to construct proposal (chain=%d, name=%v) Error: %w", m.Destination, w.domainID, err)
 	}
@@ -99,7 +106,7 @@ func (w *SubstrateWriter) VoteProposal(m *message.Message) error {
 			}
 			return nil
 		} else {
-			log.Info().Str("reason", reason).Uint64("nonce", uint64(prop.DepositNonce)).Uint8("source", uint8(prop.SourceId)).Str("resource", substrateTypes.HexEncodeToString(prop.ResourceId[:])).Msg("Ignoring proposal")
+			log.Info().Str("reason", reason).Uint64("nonce", uint64(prop.DepositNonce)).Uint8("source", uint8(prop.SourceId)).Str("resource", codec.HexEncodeToString(prop.ResourceId[:])).Msg("Ignoring proposal")
 			return nil
 		}
 	}
@@ -107,7 +114,7 @@ func (w *SubstrateWriter) VoteProposal(m *message.Message) error {
 }
 
 func (w *SubstrateWriter) proposalValid(prop *SubstrateProposal) (bool, string, error) {
-	srcId, err := substrateTypes.Encode(prop.SourceId)
+	srcId, err := codec.Encode(prop.SourceId)
 	if err != nil {
 		return false, "", err
 	}
@@ -122,8 +129,14 @@ func (w *SubstrateWriter) proposalValid(prop *SubstrateProposal) (bool, string, 
 	if !exists {
 		return true, "", nil
 	} else if voteRes.Status.IsActive {
-		if containsVote(voteRes.VotesFor, w.client.GetVoterAccountID()) ||
-			containsVote(voteRes.VotesAgainst, w.client.GetVoterAccountID()) {
+        var accountId, err = w.client.GetVoterAccountID()
+
+        if err != nil {
+            return false, "", err
+        }
+
+		if containsVote(voteRes.VotesFor, *accountId) ||
+			containsVote(voteRes.VotesAgainst, *accountId) {
 			return false, "already voted", nil
 		} else {
 			return true, "", nil
@@ -147,7 +160,7 @@ func (w *SubstrateWriter) createProposal(sourceChain uint8, depositNonce uint64,
 	if err != nil {
 		return nil, err
 	}
-	eRID, err := substrateTypes.Encode(resourceId)
+	eRID, err := codec.Encode(resourceId)
 	if err != nil {
 		return nil, err
 	}
