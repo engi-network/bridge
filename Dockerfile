@@ -1,5 +1,5 @@
 # Rebuild the source code only when needed
-FROM golang:1.15-stretch AS builder
+FROM golang:1.18-stretch AS builder
 WORKDIR /build
 COPY . .
 
