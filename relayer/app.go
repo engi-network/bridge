@@ -32,16 +32,20 @@ import (
 	"github.com/spf13/viper"
 )
 
-func handleFungibleTransfer(msg *message.Message) ([]interface{}) {
+func handleFungibleTransfer(msg *message.Message) ([]interface{}, error) {
     m := make([]interface{}, 0)
 
     amt := big.NewInt(0).SetBytes(msg.Payload[0].([]byte))
     amount := grpcTypes.NewU128(*amt)
-    recipient := grpcTypes.NewAccountID(msg.Payload[1].([]byte))
+    recipient, err := grpcTypes.NewAccountID(msg.Payload[1].([]byte))
+
+    if err != nil {
+        return nil, err
+    }
 
     m = append(m, recipient)
     m = append(m, amount)
-    return m
+    return m, nil
 }
 
 func Run() error {
