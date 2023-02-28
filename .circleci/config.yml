@@ -15,6 +15,12 @@ parameters:
   terraform-setup:
     type: string
     default: deploy/setup/bridge
+    
+executors:
+  build:
+    machine:
+      image: ubuntu-2004:202201-01
+
 
 commands:
   terraform-deploy:
@@ -63,6 +69,7 @@ jobs:
     steps:
       - terraform-deploy
   fetch-aws-env:
+    executor: build
     parameters:
       environment:
         type: string
