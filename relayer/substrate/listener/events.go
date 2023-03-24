@@ -271,6 +271,13 @@ type EventJobIdGenerated struct {
 	Topics       []types.Hash
 }
 
+type EventTreasuryUpdatedInactive struct {
+    Phase        types.Phase
+    Reactivated  types.U128
+    Deactivated  types.U128
+    Topics       []types.Hash
+}
+
 type Events struct {
 	types.EventRecords
 	ChainBridge_FungibleTransfer        []EventFungibleTransfer               //nolint:stylecheck,golint
@@ -306,6 +313,7 @@ type Events struct {
 	MultiAccount_MultisigExecuted       []EventMultisigExecuted               //nolint:stylecheck,golint
 	MultiAccount_MultisigCancelled      []EventMultisigCancelled              //nolint:stylecheck,golint
 	TreasuryReward_TreasuryMinting      []EventTreasuryMinting                //nolint:stylecheck,golint
+    Treasury_UpdatedInactive            []EventTreasuryUpdatedInactive        //nolint:stylecheck,golint
 	Nft_Transferred                     []EventNftTransferred                 //nolint:stylecheck,golint
 	RadClaims_Claimed                   []EventRadClaimsClaimed               //nolint:stylecheck,golint
 	RadClaims_RootHashStored            []EventRadClaimsRootHashStored        //nolint:stylecheck,golint

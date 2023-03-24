@@ -2,7 +2,8 @@ module github.com/engi-network/bridge
 
 go 1.15
 
-replace github.com/ChainSafe/chainbridge-core => github.com/engi-network/sygma-core v0.0.8
+replace github.com/ChainSafe/chainbridge-core => github.com/engi-network/sygma-core v0.0.9
+//replace github.com/ChainSafe/chainbridge-core => ../sygma-core
 
 //
 // replace github.com/ChainSafe/chainbridge-celo-module => ../chainbridge-celo-module

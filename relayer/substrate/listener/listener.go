@@ -5,8 +5,6 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/status-im/keycard-go/hexutils"
-
 	"github.com/ChainSafe/chainbridge-core/relayer/message"
 	"github.com/ChainSafe/chainbridge-core/store"
 	"github.com/centrifuge/go-substrate-rpc-client/v4/types"
@@ -88,15 +86,11 @@ func (l *SubstrateListener) ListenToEvents(startBlock *big.Int, domainID uint8, 
 				if err != nil {
 					log.Error().Err(err).Msg("Error handling substrate events")
 				}
-				for _, m := range msg {
-					log.Info().Uint8("chain", domainID).Uint8("destination", m.Destination).Str("ResourceId", hexutils.BytesToHex(m.ResourceId[:])).Msgf("Sending new message %+v", m)
-					ch <- m
-				}
 				if startBlock.Int64()%20 == 0 {
 					// Logging process every 20 blocks to exclude spam
 					log.Debug().Str("block", startBlock.String()).Uint8("domainID", domainID).Msg("Queried block for deposit events")
 				}
-				err = blockstore.StoreBlock(startBlock, domainID)
+				err = blockstore.StoreBlock(msg, startBlock, domainID)
 				if err != nil {
 					log.Error().Str("block", startBlock.String()).Err(err).Msg("Failed to write latest block to blockstore")
 				}
