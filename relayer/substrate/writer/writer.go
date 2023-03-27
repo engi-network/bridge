@@ -110,7 +110,7 @@ func (w *SubstrateWriter) VoteProposal(m *message.Message) error {
 			return nil
 		}
 	}
-	return nil
+    return fmt.Errorf("Retry limit exceeded (retries=%d, chain=%d, name=%v) Error: %w", BlockRetryLimit, m.Destination, w.domainID, err)
 }
 
 func (w *SubstrateWriter) proposalValid(prop *SubstrateProposal) (bool, string, error) {
