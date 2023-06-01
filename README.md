@@ -70,3 +70,9 @@ To exit, press ctrl-d or type exit
 > eth.chainId()
 "0x5"
 ```
+
+## Restarting
+
+When restarting the bridge (or in the case of downtime) the bridge should start processing from it's last process blocks. This can be configured with `--latest-attribute`
+
+You can read the last block number if needed, with a leveldb client / library, stored as chain:5:complete and chain:1:complete (for block id 1 and 5).
