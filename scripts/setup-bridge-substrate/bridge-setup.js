@@ -5,8 +5,8 @@ const { BN } = require("bn.js");
 const keyring = new Keyring({ type: 'sr25519' });
 
 const wss_url = process.env.WSS_URL;
-const seed = process.env.SUDO;
-const relays = process.env.BRIDGE_RELAYS.split(',').map(s => {return s.trim()});
+const seed = process.env.ENGI_SUDO;
+const relays = process.env.ENGI_RELAYERS.split(',').map(s => {return s.trim()});
 const resource_id = process.env.RESOURCE_ID;
 const chain_seed = process.env.CHAIN_SEED;
 const job_holdings_seed = process.env.JOB_HOLDINGS_SEED;
@@ -113,8 +113,6 @@ async function main() {
         var nonce = await api.rpc.system.accountNextIndex(sudo_account.address);
         await do_sudo(sudo_account, api, "whitelist_chain", api.tx.chainBridge.whitelistChain(whitelist_id), nonce, whitelist_id);
     }
-
-    console.log()
 
     const { tokenDecimals : token_decimals, tokenSymbol : token_symbol } = await api.registry.getChainProperties().toHuman()
 
